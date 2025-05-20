@@ -59,12 +59,12 @@
     <h2>Estimated 1RM</h2>
     <label for="weight">Weight Lifted (lbs):</label>
     <input type="number" id="weight">
-    
+
     <label for="reps">Reps Completed:</label>
     <input type="number" id="reps">
-    
+
     <button onclick="calculate1RM()">Calculate 1RM</button>
-    
+
     <div class="result" id="oneRmResult"></div>
   </div>
 
@@ -73,27 +73,43 @@
     <h2>Macro Calculator</h2>
     <label for="bw">Body Weight (lbs):</label>
     <input type="number" id="bw">
-    
+
     <label for="goal">Goal:</label>
     <select id="goal">
       <option value="cut">Cut</option>
       <option value="recomp">Recomp</option>
       <option value="gain">Gain</option>
     </select>
-    
+
     <label for="carbType">Carb Day Type:</label>
     <select id="carbType">
       <option value="low">Low</option>
       <option value="moderate">Moderate</option>
       <option value="high">High</option>
     </select>
-    
+
     <button onclick="calculateMacros()">Calculate Macros</button>
-    
+
     <div class="result" id="macroResult"></div>
   </div>
 
+  <!-- Load from 1RM Calculator -->
+  <div class="section">
+    <h2>Target Load Calculator (from 1RM)</h2>
+    <label for="oneRmInput">Your Estimated 1RM (lbs):</label>
+    <input type="number" id="oneRmInput">
+
+    <label for="desiredReps">Desired Reps:</label>
+    <input type="number" id="desiredReps">
+
+    <button onclick="calculateLoadFrom1RM()">Calculate Load</button>
+
+    <div class="result" id="targetLoadResult"></div>
+  </div>
+
   <script>
+    let lastUsedFormula = "Epley";
+
     function calculate1RM() {
       const weight = parseFloat(document.getElementById('weight').value);
       const reps = parseFloat(document.getElementById('reps').value);
@@ -104,18 +120,17 @@
       }
 
       let oneRm;
-      let method;
-
       if (reps <= 10) {
-        oneRm = weight * (36 / (37 - reps)); // Brzycki
-        method = "Brzycki";
+        oneRm = weight * (36 / (37 - reps));
+        lastUsedFormula = "Brzycki";
       } else {
-        oneRm = weight * (1 + reps / 30); // Epley
-        method = "Epley";
+        oneRm = weight * (1 + reps / 30);
+        lastUsedFormula = "Epley";
       }
 
       document.getElementById('oneRmResult').innerText = 
-        `Estimated 1RM: ${oneRm.toFixed(1)} lbs (${method} formula)`;
+        `Estimated 1RM: ${oneRm.toFixed(1)} lbs (${lastUsedFormula} formula)`;
+      document.getElementById('oneRmInput').value = oneRm.toFixed(1);
     }
 
     function calculateMacros() {
@@ -128,7 +143,7 @@
         return;
       }
 
-      const protein = bw * 1.1; // universal baseline
+      const protein = bw * 1.1;
 
       const carbMap = {
         cut:      { low: 0.5, moderate: 1.0, high: 1.5 },
@@ -147,6 +162,26 @@
 
       document.getElementById('macroResult').innerText =
         `Protein: ${protein.toFixed(0)} g\nCarbs: ${carbs.toFixed(0)} g\nFat: ${fats.toFixed(0)} g`;
+    }
+
+    function calculateLoadFrom1RM() {
+      const oneRm = parseFloat(document.getElementById('oneRmInput').value);
+      const reps = parseFloat(document.getElementById('desiredReps').value);
+
+      if (!oneRm || !reps || reps <= 0) {
+        document.getElementById('targetLoadResult').innerText = "Enter a valid 1RM and rep target.";
+        return;
+      }
+
+      let load;
+      if (reps <= 10 && lastUsedFormula === "Brzycki") {
+        load = oneRm * ((37 - reps) / 36);
+      } else {
+        load = oneRm / (1 + reps / 30);
+      }
+
+      document.getElementById('targetLoadResult').innerText =
+        `Suggested Load: ${load.toFixed(1)} lbs for ${reps} reps (${lastUsedFormula} formula)`;
     }
   </script>
 
