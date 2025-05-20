@@ -15,6 +15,11 @@ Customizes daily protein, carbohydrate, and fat intake based on:
 - Your current goal (Cut, Recomp, or Gain)
 - The day’s carb level (Low, Moderate, or High)
 
+### 3. Target Load Calculator
+Helps to calculate workload based on chosen reps, using:
+- Your 1RM (from Estimated 1RM Calculator)
+- Your target reps
+
 ## How to Use
 
 1. Open the `index.html` file in any web browser (Chrome, Safari, Firefox, etc.).
