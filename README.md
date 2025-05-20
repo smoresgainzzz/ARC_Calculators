@@ -29,7 +29,7 @@ Helps to calculate workload based on chosen reps, using:
 
 ## Live Demo
 
-If hosted via GitHub Pages, your live link might be: https://smoresgainzzz.github.io/arc-calculators/
+If hosted via GitHub Pages, your live link might be: https://smoresgainzzz.github.io/ARC-Calculators/
 
 ## Technologies Used
 
