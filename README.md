@@ -24,7 +24,7 @@ Customizes daily protein, carbohydrate, and fat intake based on:
 
 ## Live Demo
 
-If hosted via GitHub Pages, your live link might be:
+If hosted via GitHub Pages, your live link might be: https://smoresgainzzz.github.io/arc-calculators/
 
 ## Technologies Used
 
